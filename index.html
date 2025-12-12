@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smartwatch Medical Prototype</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="watch-container">
+        <div class="watch-screen">
+            <!-- VIEW: DASHBOARD -->
+            <div id="view-dashboard" class="view">
+                <!-- Header Section -->
+                <header class="header">
+                    <div class="patient-name">Jakob Muster</div>
+                    <div class="patient-age">23</div>
+                </header>
+
+                <!-- Vitals Section -->
+                <section class="vitals">
+                    <div class="heart-icon-container">
+                        <svg class="heart-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path
+                                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="heart-rate">
+                        <span class="label">ENG Live</span>
+                        <span class="value" id="bpm-value">68</span>
+                    </div>
+                    <div class="ecg-display">
+                        <svg class="ecg-line" viewBox="0 0 100 30" preserveAspectRatio="none">
+                            <polyline
+                                points="0,15 10,15 15,5 20,25 25,15 30,15 40,15 45,5 50,25 55,15 60,15 70,15 75,5 80,25 85,15 90,15 100,15"
+                                fill="none" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                    </div>
+                </section>
+
+                <!-- Condition Section -->
+                <section class="condition">
+                    <div class="condition-label">ZUSTAND</div>
+                    <div class="condition-alert flashing-text">KRITISCH</div>
+                </section>
+
+                <!-- Footer Section (Split) -->
+                <footer class="footer">
+                    <div class="activity-panel" onclick="navigateTo('view-activity')">
+                        <div class="activity-item">
+                            <svg class="icon walking-man" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <circle cx="12" cy="4" r="2"></circle>
+                                <path d="M10 8h4l2 7l-2 1l-1-4l-3 4l1 6"></path>
+                                <path d="M7 8l3 3"></path>
+                            </svg>
+                            <span class="value">Letzte 1h</span>
+                            <span class="sub-value">500 S.</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="value">Letzte 5h</span>
+                            <span class="sub-value">2300 S.</span>
+                        </div>
+                        <div class="activity-item">
+                            <span class="value">Total 24h</span>
+                            <span class="sub-value">11200 S.</span>
+                        </div>
+                        <div class="shoe-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M4 14C4 14 5 10 9 10C13 10 18 11 20 14C22 17 21 20 18 20H8C5 20 4 17 4 14Z" />
+                                <path d="M8 10L6 7" />
+                                <path d="M12 10V6" />
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="medication-panel" onclick="navigateTo('view-medication')">
+                        <ul class="med-list">
+                            <li>
+                                <span class="time">08:00</span>
+                                <span class="med-name">Medik HIT</span>
+                                <input type="checkbox" checked onclick="event.stopPropagation()">
+                            </li>
+                            <li>
+                                <span class="time">09:00</span>
+                                <span class="med-name">Medik Bruh</span>
+                                <input type="checkbox" onclick="event.stopPropagation()">
+                            </li>
+                            <li>
+                                <span class="time">10:00</span>
+                                <span class="med-name">Medik 3</span>
+                                <input type="checkbox" onclick="event.stopPropagation()">
+                            </li>
+                        </ul>
+                        <div class="stretcher-decoration">
+                            <svg viewBox="0 0 100 40" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <ellipse cx="50" cy="20" rx="40" ry="12" transform="rotate(-20 50 20)" />
+                                <line x1="30" y1="20" x2="70" y2="20" transform="rotate(-20 50 20)" />
+                            </svg>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+
+            <!-- VIEW: ACTIVITY DETAIL -->
+            <div id="view-activity" class="view hidden">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="navigateTo('view-dashboard')">&larr; Zurück</button>
+                    <h2>Aktivität</h2>
+                </div>
+                <div class="detail-content">
+                    <div class="stat-big">
+                        <span class="stat-label">Schritte Heute</span>
+                        <span class="stat-number">11,200</span>
+                    </div>
+                    <div class="stat-row">
+                        <div class="stat-box">
+                            <span class="stat-label">Distanz</span>
+                            <span class="stat-val">8.4 km</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Kalorien</span>
+                            <span class="stat-val">450 kcal</span>
+                        </div>
+                    </div>
+                    <div class="chart-mock">
+                        <!-- Simple CSS Bar Chart -->
+                        <div class="bar" style="height: 40%"></div>
+                        <div class="bar" style="height: 60%"></div>
+                        <div class="bar" style="height: 30%"></div>
+                        <div class="bar" style="height: 80%"></div>
+                        <div class="bar" style="height: 50%"></div>
+                        <div class="bar active" style="height: 90%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: MEDICATION DETAIL -->
+            <div id="view-medication" class="view hidden">
+                <div class="detail-header">
+                    <button class="back-btn" onclick="navigateTo('view-dashboard')">&larr; Zurück</button>
+                    <h2>Medikation</h2>
+                </div>
+                <div class="detail-content">
+                    <ul class="med-list-detail">
+                        <li>
+                            <div class="med-info">
+                                <span class="med-time">08:00</span>
+                                <span class="med-title">Medik HIT</span>
+                                <span class="med-dose">500mg</span>
+                            </div>
+                            <input type="checkbox" checked>
+                        </li>
+                        <li>
+                            <div class="med-info">
+                                <span class="med-time">09:00</span>
+                                <span class="med-title">Medik Bruh</span>
+                                <span class="med-dose">1 Tablette</span>
+                            </div>
+                            <input type="checkbox">
+                        </li>
+                        <li>
+                            <div class="med-info">
+                                <span class="med-time">10:00</span>
+                                <span class="med-title">Medik 3</span>
+                                <span class="med-dose">200ml</span>
+                            </div>
+                            <input type="checkbox">
+                        </li>
+                        <li>
+                            <div class="med-info">
+                                <span class="med-time">14:00</span>
+                                <span class="med-title">Aspirin</span>
+                                <span class="med-dose">100mg</span>
+                            </div>
+                            <input type="checkbox">
+                        </li>
+                        <li>
+                            <div class="med-info">
+                                <span class="med-time">20:00</span>
+                                <span class="med-title">Insulin</span>
+                                <span class="med-dose">20IE</span>
+                            </div>
+                            <input type="checkbox">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="side-button"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
