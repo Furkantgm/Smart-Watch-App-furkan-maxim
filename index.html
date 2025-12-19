@@ -5,21 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smartwatch Medical Prototype</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap"
-        rel="stylesheet">
+    <title>Smartwatch Medical Prototype</title>
+    <!-- System Fonts used in CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <div class="watch-container">
         <div class="watch-screen">
+            <!-- VIEW: STARTUP -->
+            <div id="view-startup" class="view">
+                <div class="startup-content">
+                    <div id="bluetooth-container" class="bluetooth-icon-container">
+                        <svg class="bluetooth-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M7 7L17 17L12 22V2L17 7L7 17" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </div>
+                    <div id="startup-name" class="app-name-startup">Jakob Muster</div>
+                </div>
+            </div>
+
             <!-- VIEW: DASHBOARD -->
-            <div id="view-dashboard" class="view">
+            <div id="view-dashboard" class="view hidden">
                 <!-- Header Section -->
-                <header class="header">
+                <header class="header clickable" onclick="navigateTo('view-patient-data')">
                     <div class="patient-name">Jakob Muster</div>
                     <div class="patient-age">23</div>
                 </header>
@@ -34,8 +44,8 @@
                         </svg>
                     </div>
                     <div class="heart-rate">
-                        <span class="label">ENG Live</span>
-                        <span class="value" id="bpm-value">68</span>
+                        <span class="label">EKG Live</span>
+                        <span class="value" id="bpm-value">120</span>
                     </div>
                     <div class="ecg-display">
                         <svg class="ecg-line" viewBox="0 0 100 30" preserveAspectRatio="none">
@@ -49,29 +59,26 @@
                 <!-- Condition Section -->
                 <section class="condition">
                     <div class="condition-label">ZUSTAND</div>
-                    <div class="condition-alert flashing-text">KRITISCH</div>
+                    <div class="condition-alert flashing-text">HERZRASEN</div>
                 </section>
 
                 <!-- Footer Section (Split) -->
                 <footer class="footer">
                     <div class="activity-panel" onclick="navigateTo('view-activity')">
                         <div class="activity-item">
-                            <svg class="icon walking-man" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2">
-                                <circle cx="12" cy="4" r="2"></circle>
-                                <path d="M10 8h4l2 7l-2 1l-1-4l-3 4l1 6"></path>
-                                <path d="M7 8l3 3"></path>
-                            </svg>
-                            <span class="value">Letzte 1h</span>
-                            <span class="sub-value">500 S.</span>
+                            <div class="activity-header">
+                                <span class="value">Steadiness</span>
+
+                            </div>
+                            <span class="sub-value">OK</span>
                         </div>
                         <div class="activity-item">
-                            <span class="value">Letzte 5h</span>
-                            <span class="sub-value">2300 S.</span>
+                            <span class="value">Balance</span>
+                            <span class="sub-value">Gut</span>
                         </div>
                         <div class="activity-item">
-                            <span class="value">Total 24h</span>
-                            <span class="sub-value">11200 S.</span>
+                            <span class="value">Asymmetrie</span>
+                            <span class="sub-value">2%</span>
                         </div>
                         <div class="shoe-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
@@ -84,20 +91,20 @@
                     <div class="divider"></div>
                     <div class="medication-panel" onclick="navigateTo('view-medication')">
                         <ul class="med-list">
-                            <li>
+                            <li class="taken">
                                 <span class="time">08:00</span>
-                                <span class="med-name">Medik HIT</span>
-                                <input type="checkbox" checked onclick="event.stopPropagation()">
+                                <span class="med-name">Metoprolol</span>
+                                <span class="status-icon">✔</span>
                             </li>
-                            <li>
+                            <li class="pending">
                                 <span class="time">09:00</span>
-                                <span class="med-name">Medik Bruh</span>
-                                <input type="checkbox" onclick="event.stopPropagation()">
+                                <span class="med-name">Aspirin</span>
+                                <span class="status-icon">○</span>
                             </li>
-                            <li>
+                            <li class="pending">
                                 <span class="time">10:00</span>
-                                <span class="med-name">Medik 3</span>
-                                <input type="checkbox" onclick="event.stopPropagation()">
+                                <span class="med-name">Insulin</span>
+                                <span class="status-icon">○</span>
                             </li>
                         </ul>
                         <div class="stretcher-decoration">
@@ -117,87 +124,132 @@
                     <h2>Aktivität</h2>
                 </div>
                 <div class="detail-content">
-                    <div class="stat-big">
-                        <span class="stat-label">Schritte Heute</span>
-                        <span class="stat-number">11,200</span>
+                    <div class="stat-big interactive" id="activity-toggle">
+                        <span class="stat-label" id="activity-label">--</span>
+                        <span class="stat-number" id="activity-value">--</span>
                     </div>
                     <div class="stat-row">
                         <div class="stat-box">
-                            <span class="stat-label">Distanz</span>
-                            <span class="stat-val">8.4 km</span>
+                            <span class="stat-label">Status</span>
+                            <span class="stat-val">OK</span>
                         </div>
                         <div class="stat-box">
-                            <span class="stat-label">Kalorien</span>
-                            <span class="stat-val">450 kcal</span>
+                            <span class="stat-label">Balance</span>
+                            <span class="stat-val">Gut</span>
+                        </div>
+                        <div class="stat-box">
+                            <span class="stat-label">Risiko</span>
+                            <span class="stat-val">Tief</span>
                         </div>
                     </div>
-                    <div class="chart-mock">
-                        <!-- Simple CSS Bar Chart -->
-                        <div class="bar" style="height: 40%"></div>
-                        <div class="bar" style="height: 60%"></div>
-                        <div class="bar" style="height: 30%"></div>
-                        <div class="bar" style="height: 80%"></div>
-                        <div class="bar" style="height: 50%"></div>
-                        <div class="bar active" style="height: 90%"></div>
+                </div>
+
+                <div class="activity-chart-section">
+                    <h3>Steadiness Verlauf</h3>
+                    <div id="hourly-chart" class="chart-container">
+                        <!-- Bars will be injected by JS -->
                     </div>
                 </div>
             </div>
+        </div>
 
-            <!-- VIEW: MEDICATION DETAIL -->
-            <div id="view-medication" class="view hidden">
-                <div class="detail-header">
-                    <button class="back-btn" onclick="navigateTo('view-dashboard')">&larr; Zurück</button>
-                    <h2>Medikation</h2>
-                </div>
-                <div class="detail-content">
-                    <ul class="med-list-detail">
-                        <li>
-                            <div class="med-info">
-                                <span class="med-time">08:00</span>
-                                <span class="med-title">Medik HIT</span>
-                                <span class="med-dose">500mg</span>
-                            </div>
-                            <input type="checkbox" checked>
-                        </li>
-                        <li>
-                            <div class="med-info">
-                                <span class="med-time">09:00</span>
-                                <span class="med-title">Medik Bruh</span>
-                                <span class="med-dose">1 Tablette</span>
-                            </div>
-                            <input type="checkbox">
-                        </li>
-                        <li>
-                            <div class="med-info">
-                                <span class="med-time">10:00</span>
-                                <span class="med-title">Medik 3</span>
-                                <span class="med-dose">200ml</span>
-                            </div>
-                            <input type="checkbox">
-                        </li>
-                        <li>
-                            <div class="med-info">
-                                <span class="med-time">14:00</span>
-                                <span class="med-title">Aspirin</span>
-                                <span class="med-dose">100mg</span>
-                            </div>
-                            <input type="checkbox">
-                        </li>
-                        <li>
-                            <div class="med-info">
-                                <span class="med-time">20:00</span>
-                                <span class="med-title">Insulin</span>
-                                <span class="med-dose">20IE</span>
-                            </div>
-                            <input type="checkbox">
-                        </li>
-                    </ul>
-                </div>
+        <!-- VIEW: MEDICATION DETAIL -->
+        <div id="view-medication" class="view hidden">
+            <div class="detail-header">
+                <button class="back-btn" onclick="navigateTo('view-dashboard')">&larr; Zurück</button>
+                <h2>Medikation</h2>
             </div>
 
-            <div class="side-button"></div>
+            <div class="detail-content">
+                <ul class="med-list-detail">
+                    <li class="taken">
+                        <div class="med-info">
+                            <span class="med-time">08:00</span>
+                            <span class="med-title">Metoprolol</span>
+                            <span class="med-dose">50mg</span>
+                        </div>
+                        <span class="med-status">Eingenommen</span>
+                    </li>
+                    <li class="pending">
+                        <div class="med-info">
+                            <span class="med-time">09:00</span>
+                            <span class="med-title">Aspirin</span>
+                            <span class="med-dose">100mg</span>
+                        </div>
+                        <span class="med-status">Ausstehend</span>
+                    </li>
+                    <li class="pending">
+                        <div class="med-info">
+                            <span class="med-time">10:00</span>
+                            <span class="med-title">Insulin</span>
+                            <span class="med-dose">10 IE</span>
+                        </div>
+                        <span class="med-status">Ausstehend</span>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+
+        <!-- VIEW: PATIENT DATA -->
+        <div id="view-patient-data" class="view hidden">
+            <div class="detail-header">
+                <button class="back-btn" onclick="scrollUp()">&uarr; Dashboard</button>
+                <h2>Patientendaten</h2>
+            </div>
+            <div class="detail-content">
+                <ul class="patient-data-list">
+                    <li>
+                        <span class="label">Name</span>
+                        <span class="data">Jakob Muster</span>
+                    </li>
+                    <li>
+                        <span class="label">Alter</span>
+                        <span class="data">23 Jahre</span>
+                    </li>
+                    <li>
+                        <span class="label">Blutgruppe</span>
+                        <span class="data red-text">A+</span>
+                    </li>
+                    <li>
+                        <span class="label">Notfallkontakt</span>
+                        <span class="data">Mutter<br><span class="sub-data">+43 660 1234567</span></span>
+                    </li>
+                    <li>
+                        <span class="label">Krankheiten</span>
+                        <span class="data">Diabetes Typ 1</span>
+                    </li>
+                    <li>
+                        <span class="label">Allergien</span>
+                        <span class="data">Penicillin, Nüsse</span>
+                    </li>
+                    <li>
+                        <span class="label">Versicherungs-Nr.</span>
+                        <span class="data">1234 010199</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div> <!-- Close watch-screen -->
+    <div class="watch-controls-scroll">
+        <div class="scroll-btn up" onclick="scrollUp()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M18 15l-6-6-6 6" />
+            </svg>
+        </div>
+        <div class="scroll-btn down" onclick="scrollDown()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M6 9l6 6 6-6" />
+            </svg>
         </div>
     </div>
+    </div>
+
+    <!-- External Toggle Button (Outside Watch Container) -->
+    <button id="external-toggle" onclick="togglePatientData()">
+        Patienten-<br>Daten
+    </button>
+
     <script src="script.js"></script>
 </body>
 
